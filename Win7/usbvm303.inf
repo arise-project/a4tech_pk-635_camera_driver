@@ -1,0 +1,1326 @@
+;Installation File (.inf) for Look 316S
+
+[Version]
+Signature  = "$CHICAGO$"
+LayoutFile = Layout.inf, Layout1.inf, Layout2.inf
+Class      = Image
+ClassGUID  = {6bdd1fc6-810f-11d0-bec7-08002be2092f}
+Provider   = %SoftMfg%
+DriverVer  = 03/04/2010,303.10.304.04
+CatalogFile=usbvm303.cat
+
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%HwMfg%=VM,NT,NTamd64
+
+[DestinationDirs]
+DefaultDestDir         = 11
+VM.APP.CopyFiles       = 10
+VM.APP.CopyFiles.NTamd64     = 10
+VM.STI.CopyFiles       = 11
+Camera.Ctrl.Files = 11
+Camera.Ctrl.Files.NTamd64 = 10, SysWOW64
+VM.TWAIN.CopyFiles     = 10, twain_32\VM0303
+VM.XPTWAIN.CopyFiles   = 10, twain_32\VM0303
+Camera.Files   = 10, System32\Drivers
+Camera.Files.NTamd64   = 10, System32\Drivers
+CopyExFiles	       = 10
+CopyExFiles.NTamd64    = 10
+
+ResCopyFiles=10, EffectResources
+FiltCopyFiles=10,System32\Drivers
+FiltCopyFiles.NTamd64=10,System32\Drivers
+LanguageCopyFiles=10, twain_32\VM0303
+FaceTrackCopyFiles=10, EffectResources\FT
+
+[VM]
+%USB\VID_0AC8&PID_0302.DeviceDesc%=VM.USBDCam302,USB\VID_0AC8&PID_303B
+
+[VM.NT]
+%USB\VID_0AC8&PID_0302.DeviceDesc%=VM.USBDCam302.XP,USB\VID_0AC8&PID_303B
+
+[VM.NTamd64]
+%USB\VID_0AC8&PID_0302.DeviceDesc%=VM.USBDCam302.NTamd64,USB\VID_0AC8&PID_303B
+
+;****************************************
+
+[VM.USBDCam302]
+Include       = ks.inf, kscaptur.inf, ksfilter.inf
+Needs         = KS.Registration,KSCAPTUR.Registration
+SubClass      = StillImage
+DeviceType    = 2
+DeviceSubType = 0x0302
+Capabilities  = 1 
+Events        = VM.STI.Events
+DeviceData    = VM.STI.DeviceData
+ICMProfiles   = "sRGB Color Space Profile.icm"
+AddReg        = VM.USBDCam.AddReg, VM.CustomPrp.AddReg,  VM.STI.AddReg, VM.TWAIN.AddReg,VM.HWConfig.Addreg,VM.USBDCam.DefaultSettings,UnInstallPanel.AddReg
+DelReg		  = VM.CustomPrp.DelReg
+CopyFiles     = Camera.Files, Camera.Ctrl.Files, VM.STI.CopyFiles, VM.APP.CopyFiles, VM.TWAIN.CopyFiles,CopyExFiles
+
+[VM.USBDCam302.NT]
+Include       = ks.inf, kscaptur.inf, ksfilter.inf  
+Needs         = KS.Registration,KSCAPTUR.Registration.NT  
+SubClass      = StillImage
+DeviceType    = 2
+DeviceSubType = 0x0302
+Capabilities  = 1  
+Events        = VM.STI.Events
+DeviceData    = VM.STI.DeviceData
+ICMProfiles   = "sRGB Color Space Profile.icm"
+AddReg        = VM.USBDCam.AddReg, VM.CustomPrp.AddReg,  VM.STI.AddReg,  VM.TWAIN.AddReg,VM.HWConfig.Addreg,VM.USBDCam.DefaultSettings,UnInstallPanel.AddReg, FilterConfig.Addreg
+DelReg		  = VM.CustomPrp.DelReg
+CopyFiles     = Camera.Files, Camera.Ctrl.Files, VM.STI.CopyFiles, VM.APP.CopyFiles, VM.TWAIN.CopyFiles,CopyExFiles, FiltCopyFiles,LanguageCopyFiles,FaceTrackCopyFiles,ResCopyFiles
+RegisterDlls  = FilterConfig.Register
+
+[VM.USBDCam302.XP]
+Include       = ks.inf, kscaptur.inf
+Needs         = KS.Registration,KSCAPTUR.Registration.NT
+AddReg        = VM.USBDCam.AddReg, VM.CustomPrp.AddReg, VM.WIA.AddReg,  VM.TWAIN.AddReg,VM.HWConfig.Addreg,VM.USBDCam.DefaultSettings,UnInstallPanel.AddReg, FilterConfig.Addreg
+DelReg		  = VM.CustomPrp.DelReg
+CopyFiles     = Camera.Files, Camera.Ctrl.Files, VM.STI.CopyFiles, VM.APP.CopyFiles.NTamd64, VM.XPTWAIN.CopyFiles,CopyExFiles, FiltCopyFiles,LanguageCopyFiles,FaceTrackCopyFiles,ResCopyFiles
+SubClass      = StillImage
+DeviceType    = 3
+DeviceSubType = 0x0302
+Capabilities  = 0x00000031
+;Capabilities = 0x00000001
+PortSelect    = No
+;Events       = VM.STI.Events
+DeviceData    = VM.WIA.DeviceData
+ICMProfiles   = "sRGB Color Space Profile.icm"
+;LogConfig    = VM.XP.NEEDDREBOOT
+RegisterDlls  = FilterConfig.Register
+
+[VM.USBDCam302.NTamd64]
+Include       = ks.inf, kscaptur.inf
+Needs         = KS.Registration,KSCAPTUR.Registration.NT
+AddReg        = VM.USBDCam.AddReg, VM.CustomPrp.NTamd64.AddReg, VM.WIA.NTamd64.AddReg,  VM.TWAIN.NTamd64.AddReg,VM.HWConfig.Addreg,VM.USBDCam.DefaultSettings.NTamd64,UnInstallPanel.AddReg,FilterConfig.AddReg,Filter.RegisterDll.WOW64
+DelReg		  = VM.CustomPrp.DelReg
+CopyFiles     = Camera.Files.NTamd64, Camera.Ctrl.Files.NTamd64, VM.STI.CopyFiles, VM.APP.CopyFiles.NTamd64, VM.XPTWAIN.CopyFiles, CopyExFiles.NTamd64, FiltCopyFiles.NTamd64,LanguageCopyFiles,FaceTrackCopyFiles,ResCopyFiles
+SubClass      = StillImage
+DeviceType    = 3
+DeviceSubType = 0x0302
+Capabilities  = 0x00000031
+;Capabilities = 0x00000001
+PortSelect    = No
+;Events       = VM.STI.Events
+DeviceData    = VM.WIA.DeviceData
+ICMProfiles   = "sRGB Color Space Profile.icm"
+;LogConfig    = VM.XP.NEEDDREBOOT
+;RegisterDlls  = FilterConfig.Register
+
+[VM.USBDCam302.NT.HW]
+AddReg=FilterAddReg
+[VM.USBDCam302.XP.HW]
+AddReg=FilterAddReg
+[VM.USBDCam302.NTamd64.HW]
+AddReg=FilterAddReg
+
+[VM.USBDCam.AddReg]
+HKR,,HardwareConfig,1,1
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,usbVM303.sys
+;HKR,,PageOutWhenUnopened,3,00
+;HKR,,PowerDownWhenUnopened,3,00
+
+[VM.CustomPrp.AddReg]
+HKCR,CLSID\%GUID_VMCustomPropertySets%,,,%VMCustomPropertySets%
+HKCR,CLSID\%GUID_VMCustomPropertySets%\InprocServer32,,,VM303Prp.Ax
+HKCR,CLSID\%GUID_VMCustomPropertySets%\InprocServer32,ThreadingModel,,Both
+
+HKLM,System\CurrentControlSet\Control\MediaInterfaces\%GUID_VMCustomPropertySets%,,,%VMCustomPropertySets%
+HKLM,System\CurrentControlSet\Control\MediaInterfaces\%GUID_VMCustomPropertySets%,IID,1,40,53,17,ED,0C,35,AA,45,A0,A9,6E,77,DC,62,A9,CA
+
+HKCR,CLSID\%CLSID_VMCustomPropertyPage%,,,%VMCustomPropertyPage%
+HKCR,CLSID\%CLSID_VMCustomPropertyPage%\InprocServer32,,,VM303Prp.Ax
+HKCR,CLSID\%CLSID_VMCustomPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+HKCR,CLSID\%CLSID_VMBackDoorPropertyPage%,,,%VMBackDoorPropertyPage%
+HKCR,CLSID\%CLSID_VMBackDoorPropertyPage%\InprocServer32,,,vvftprpav303.Ax
+HKCR,CLSID\%CLSID_VMBackDoorPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,,,vvftprpav303.Ax
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMCustomPropertyPage%,,,%VMCustomPropertyPage%
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMBackDoorPropertyPage%,,,%VMBackDoorPropertyPage%
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+
+[VM.CustomPrp.NTamd64.AddReg]
+HKCR,WOW6432Node\CLSID\%GUID_VMCustomPropertySets%,,,%VMCustomPropertySets%
+HKCR,WOW6432Node\CLSID\%GUID_VMCustomPropertySets%\InprocServer32,,,VM303Prp.Ax
+HKCR,WOW6432Node\CLSID\%GUID_VMCustomPropertySets%\InprocServer32,ThreadingModel,,Both
+
+HKLM,System\CurrentControlSet\Control\MediaInterfaces\%GUID_VMCustomPropertySets%,,,%VMCustomPropertySets%
+HKLM,System\CurrentControlSet\Control\MediaInterfaces\%GUID_VMCustomPropertySets%,IID,1,40,53,17,ED,0C,35,AA,45,A0,A9,6E,77,DC,62,A9,CA
+
+HKCR,WOW6432Node\CLSID\%CLSID_VMCustomPropertyPage%,,,%VMCustomPropertyPage%
+HKCR,WOW6432Node\CLSID\%CLSID_VMCustomPropertyPage%\InprocServer32,,,VM303Prp.Ax
+HKCR,WOW6432Node\CLSID\%CLSID_VMCustomPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+HKCR,WOW6432Node\CLSID\%CLSID_VMBackDoorPropertyPage%,,,%VMBackDoorPropertyPage%
+HKCR,WOW6432Node\CLSID\%CLSID_VMBackDoorPropertyPage%\InprocServer32,,,vvftprpav303.Ax
+HKCR,WOW6432Node\CLSID\%CLSID_VMBackDoorPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+
+HKCR,WOW6432Node\CLSID\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+HKCR,WOW6432Node\CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,,,vvftprpav303.Ax
+HKCR,WOW6432Node\CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,ThreadingModel,,Both
+
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMCustomPropertyPage%,,,%VMCustomPropertyPage%
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMBackDoorPropertyPage%,,,%VMBackDoorPropertyPage%
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+
+[Filter.RegisterDll.WOW64]
+;============interface rgs
+HKCR,WOW6432Node\CLSID\%GUID_VVFTCTRL_CLSID%,,,"VvFtCtrl Class"
+HKCR,WOW6432Node\CLSID\%GUID_VVFTCTRL_CLSID%,AppID,,%GUID_VVFTCTRL_APPID%
+HKCR,WOW6432Node\CLSID\%GUID_VVFTCTRL_CLSID%\InprocServer32,,,vvftctrl.dll
+HKCR,WOW6432Node\CLSID\%GUID_VVFTCTRL_CLSID%\InprocServer32,ThreadingModel,,Apartment
+
+
+[VM.STI.AddReg]
+HKR,,USDClass,,"{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}"
+HKCR,CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66} ,,,%STI_DEVICE_NAME%
+HKCR,CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}\InProcServer32,,,"%11%\VM303STI.dll"
+HKCR,CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}\InProcServer32,ThreadingModel,,"Both"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%VIDEOAPP%,,"%10%\amcap.exe /StiDevice:%1 /StiEvent:%2"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%STILLAPP%,,"%10%\Sti303.exe /StiDevice:%1 /StiEvent:%2"
+
+[VM.STI.NTamd64.AddReg]
+HKR,,USDClass,,"{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}"
+HKCR,WOW6432Node\CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66} ,,,%STI_DEVICE_NAME%
+HKCR,WOW6432Node\CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}\InProcServer32,,,"%11%\VM303STI.dll"
+HKCR,WOW6432Node\CLSID\{3FB9B79B-1041-4c84-8C43-F3ED3F2D4D66}\InProcServer32,ThreadingModel,,"Both"
+HKLM,"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%VIDEOAPP%,,"%10%\amcap.exe /StiDevice:%1 /StiEvent:%2"
+HKLM,"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\StillImage\Registered Applications",%STILLAPP%,,"%10%\Sti303.exe /StiDevice:%1 /StiEvent:%2"
+
+[VM.WIA.AddReg]
+HKR,,USDClass,,"{0527d1d0-88c2-11d2-82c7-00c04f8ec183}"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\Run","VMSnap3",,"%10%\VMSnap3.exe"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\Run","Domino",,"%10%\Domino.exe"
+HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",Snapshot1,,"%10%\amcap.exe"
+HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",Snapshot2,,"%10%\VM303Cap.exe"
+;HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",SoundFile,,"%10%\VM303.mid"
+;HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",SoundFile,,"%10%\VM303.wav"
+HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",MusicEnable,,0
+HKLM,"Software\ZSMC\USBCAMERA\ZC0303\BigDogPath",MusicShow,,0
+[VM.WIA.NTamd64.AddReg]
+HKR,,USDClass,,"{0527d1d0-88c2-11d2-82c7-00c04f8ec183}"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\Run","VMSnap3",,"%10%\VMSnap3.exe"
+HKLM,"SOFTWARE\Microsoft\Windows\CurrentVersion\Run","Domino",,"%10%\Domino.exe"
+HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",Snapshot1,,"%10%\amcap.exe"
+HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",Snapshot2,,"%10%\VM303Cap.exe"
+;HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",SoundFile,,"%10%\VM303.mid"
+;HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",SoundFile,,"%10%\VM303.wav"
+HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",MusicEnable,,0
+HKLM,"Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\BigDogPath",MusicShow,,0
+
+[UnInstallPanel.AddReg]
+HKLM,SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%CLSID_VMUninstall%,DisplayName,,%USB\VID_0AC8&PID_0302.DeviceDesc%
+HKLM,SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%CLSID_VMUninstall%,UninstallString,,"rm303b.exe usb\vid_0ac8&pid_303B"
+
+[VM.STI.DeviceData]
+TwainDS     = %USB\VID_0AC8&PID_0302.TWAINDSName%
+SpecialInfo = "VM"
+
+[VM.WIA.DeviceData]
+Server      = local
+UI DLL      = sti.dll
+UI Class ID = {5d8ef5a3-ac13-11d2-a093-00c04f72dc3c}
+TwainDS     = %USB\VID_0AC8&PID_0302.TWAINDSName%
+SpecialInfo = "VM"
+
+[VM.STI.Events]
+; These are events that the device issues to trigger application 
+; launching.
+Snapshot  = %SNAPSHOT%,{E76F3027-CA52-468e-B06E-2F32E2F6B59E},*
+Snapshot2 = %SNAPSHOT2%,{E76F3028-CA52-468e-B06E-2F32E2F6B59E},%STILLAPP%
+
+[VM.TWAIN.AddReg]
+HKLM,%TWAINSetting%,DeviceName,,%USB\VID_0AC8&PID_0302.TWAINDSName%
+HKLM,%TWAINSetting%,DSName,,%USB\VID_0AC8&PID_0302.TWAINDSName%
+HKLM,%TWAINSetting%,OEM,,%USB\VID_0AC8&PID_0302.TWAINOEMPath%
+
+[VM.TWAIN.NTamd64.AddReg]
+HKLM,%TWAINSetting.NTamd64%,DeviceName,,%USB\VID_0AC8&PID_0302.TWAINDSName%
+HKLM,%TWAINSetting.NTamd64%,DSName,,%USB\VID_0AC8&PID_0302.TWAINDSName%
+HKLM,%TWAINSetting.NTamd64%,OEM,,%USB\VID_0AC8&PID_0302.TWAINOEMPath%
+
+[FilterAddReg]
+HKR,,"UpperFilters",0x00010000,"vvftav303" 
+
+[FilterConfig.AddReg]
+HKR,Filter,FaceFeature,0x10001,1 
+HKR,Filter,ImageFeature,0x10001,1    
+HKR,Filter,FeatureMaxWidth,0x10001,640
+HKR,Filter,FeatureMaxHeight,0x10001,480
+HKR,Filter,FaceMaxWidth,0x10001,320 
+HKR,Filter,FaceMaxHeight,0x10001,240    
+HKR,Filter,DebugLevel,0x10001,0    
+HKR,Filter,DefaultEffect,0x10001,0    
+HKR,Filter,ImagePara8,0x00001,01,ff,ff,00,80,00 
+
+[FilterConfig.Register]
+11,,vvftctrl.dll,1
+
+;[FilterConfig.Register.WOW64]
+;10,SysWow64,vvftctrl.dll,1
+
+
+;****************************************************
+[VM.USBDCam302.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,VM.USBDCam302.Interface
+
+[VM.USBDCam302.NT.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,VM.USBDCam302.Interface
+
+[VM.USBDCam302.XP.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,VM.USBDCam302.Interface
+
+[VM.USBDCam302.NTamd64.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,GLOBAL,VM.USBDCam302.Interface
+
+[VM.USBDCam302.Interface]
+AddReg=VM.USBDCam302.Intf.AddReg
+         
+[VM.USBDCam302.Intf.AddReg]
+HKR,,CLSID,,%ProxyVCap.CLSID%
+HKR,,FriendlyName,,%USB\VID_0AC8&PID_0302.DeviceDisp%
+;ED175341-350C-45aa-A0A9-6E77DC62A9CA
+HKR,PageAliases,"{71F96464-78F3-11d0-A18C-00A0C9118956}",1,41,53,17,ED, 0C,35, AA,45, 0xA0, 0xA9, 0x6E, 0x77, 0xDC, 0x62, 0xA9, 0xCA
+HKR,PinFactory\1\Interfaces\%GUID_VMCustomPropertySets%,,,
+HKR,,ExtensionDLL,,%VM.ExtensionDLL%
+
+[VM.CustomPrp.DelReg]
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%,,0x00002000
+
+[VM.USBDCam302.NT.Services]
+AddService = ZSMC0303,0x00000002,VM.USBDCam302.ServiceInstall
+AddService= vvftav303,,FilterService
+
+[VM.USBDCam302.XP.Services]
+DelService = ZSMC303
+AddService = ZSMC0303,0x00000002,VM.USBDCam302.ServiceInstall
+AddService= vvftav303,,FilterService
+
+[VM.USBDCam302.NTamd64.Services]
+DelService = ZSMC303
+AddService = ZSMC0303,0x00000002,VM.USBDCam302.ServiceInstall
+AddService= vvftav303,,FilterService
+
+[VM.USBDCam302.ServiceInstall]
+DisplayName   = %USB\VID_0AC8&PID_0302.DeviceDesc%
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %10%\System32\Drivers\usbVM303.sys
+[FilterService]
+;DisplayName =%FILTER_SEVICE_NAME%
+ServiceType=%SERVICE_KERNEL_DRIVER%
+StartType=%SERVICE_DEMAND_START%
+ErrorControl=%SERVICE_ERROR_NORMAL%
+ServiceBinary=%10%\system32\drivers\vvftav303.sys
+
+;******************************************************
+
+
+
+[Camera.Files]
+usbVM303.sys
+
+[Camera.Files.NTamd64]
+usbVM303.sys,VM303x64.sys,,COPYFLG_FORCE_FILE_IN_USE
+
+[Camera.Ctrl.Files]
+VM303Prp.Ax
+vvftprpav303.ax
+VvFtCtrl.dll
+msvcp71.dll
+msvcr71.dll
+
+[Camera.Ctrl.Files.NTamd64]
+VM303Prp.Ax
+vvftprpav303.ax
+VvFtCtrl.dll
+msvcp71.dll
+msvcr71.dll
+
+[VM.APP.CopyFiles]
+amcap.exe
+Sti303.exe
+
+[VM.APP.CopyFiles.NTamd64]
+amcap.exe
+VMSnap3.exe,,,COPYFLG_FORCE_FILE_IN_USE
+Domino.exe,,,COPYFLG_FORCE_FILE_IN_USE
+VM303Cap.exe
+
+[VM.STI.CopyFiles]
+VM303STI.dll
+
+[VM.TWAIN.CopyFiles]
+VM303TWN.DS
+
+[VM.XPTWAIN.CopyFiles]
+VM303TXP.DS
+
+[CopyExFiles]
+rm303b.exe
+
+[CopyExFiles.NTamd64]
+rm303b.exe,rm303bx64.exe,,COPYFLG_FORCE_FILE_IN_USE
+
+[ResCopyFiles]			; effect resources files
+bcbsmp50.bpl
+borlndmm.dll
+canvas.vmd
+cc3250mt.dll
+DriverPage.ini
+FrameWizard.exe
+FrameWizardV.exe
+Image.dat
+Image109.bmp
+Negative.vmd
+RainDrop.vmd
+Random.db
+vcl50.bpl
+vclx50.bpl
+vmd101.vmd
+vmd102.vmd
+vmd103.vmd
+vmd104.vmd
+vmd105.vmd
+vmd106.vmd
+vmd107.vmd
+vmd108.vmd
+VMImage.ini
+
+[LanguageCopyFiles]
+vm0303_2052.lrc
+vm0303_1028.lrc
+vm0303_1041.lrc
+
+[FiltCopyFiles]
+vvftav303.sys			; replace newer, suppress dialog
+[FiltCopyFiles.NTamd64]
+vvftav303.sys,vvftav64.sys
+
+[FaceTrackCopyFiles]
+1.dat
+3.dat
+13.dat
+
+[SourceDisksNames]
+1 = %SRCDISKNAME%,,,
+2 = %SRCDISKNAME%,,,\Language
+3 = %SRCDISKNAME%,,,\Filter
+4 = %SRCDISKNAME%,,,\EffRes
+5 = %SRCDISKNAME%,,,\FT
+
+[SourceDisksFiles]
+usbVM303.sys  	= 1
+VM303x64.sys = 1
+VM303Prp.Ax     = 1
+VM303STI.dll    = 1 
+VM303TWN.DS     = 1
+VM303TXP.DS     = 1
+amcap.exe       = 1
+Sti303.exe      = 1
+VM303Cap.exe    = 1
+VMSnap3.exe     = 1
+Domino.exe      = 1
+rm303b.exe       = 1
+rm303bx64.exe    = 1
+
+vm0303_2052.lrc=2
+vm0303_1028.lrc=2
+vm0303_1041.lrc=2
+
+vvftav303.sys=3
+vvftav64.sys=3
+vvftprpav303.ax=3
+VvFtCtrl.dll=3
+msvcp71.dll=3
+msvcr71.dll=3
+
+bcbsmp50.bpl=4
+borlndmm.dll=4
+canvas.vmd=4
+cc3250mt.dll=4
+DriverPage.ini=4
+FrameWizard.exe=4
+FrameWizardV.exe=4
+Image.dat=4
+Image109.bmp=4
+Negative.vmd=4
+RainDrop.vmd=4
+Random.db=4
+vcl50.bpl=4
+vclx50.bpl=4
+vmd101.vmd=4
+vmd102.vmd=4
+vmd103.vmd=4
+vmd104.vmd=4
+vmd105.vmd=4
+vmd106.vmd=4
+vmd107.vmd=4
+vmd108.vmd=4
+VMImage.ini=4
+
+1.dat=5
+3.dat=5
+13.dat=5
+
+[Strings]
+;----------------
+; Non-Localizable
+;----------------
+
+ProxyVCap.CLSID       = "{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_CAPTURE    = "{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+SERVICE_KERNEL_DRIVER = 1
+SERVICE_DEMAND_START  = 3
+SERVICE_ERROR_NORMAL  = 1
+VM.ExtensionDLL       = "VM303Prp.Ax"
+
+HV7131B="ChipConfig\SupportSensor\HV7131B"
+TAS5130C="ChipConfig\SupportSensor\TAS5130C"
+CS2102="ChipConfig\SupportSensor\CS2102"
+OV7620="ChipConfig\SupportSensor\OV7620"
+HDCS2020="ChipConfig\SupportSensor\HDCS2020"
+PB0330="ChipConfig\SupportSensor\PB0330"
+ICM105A="ChipConfig\SupportSensor\ICM105A"
+PAS202B="ChipConfig\SupportSensor\PAS202B"
+PAS106B="ChipConfig\SupportSensor\PAS106B"
+
+CustomSetting = "Software\ZSMC\USBCAMERA\ZC0303\CustomSettings"
+CustomSetting.NTamd64 = "Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\CustomSettings"
+ImagePara     = "Settings\ImagePara"
+
+DefHV7131B="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\HV7131B"
+DefTAS5130C="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\TAS5130C"
+DefCS2102="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\CS2102"
+DefOV7620="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\OV7620"
+DefHDCS2020="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\HDCS2020"
+DefPB0330="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PB0330"
+DefICM105A="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\ICM105A"
+DefPAS202B="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PAS202B"
+DefPAS106B="Software\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PAS106B"
+
+DefHV7131B.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\HV7131B"
+DefTAS5130C.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\TAS5130C"
+DefCS2102.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\CS2102"
+DefOV7620.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\OV7620"
+DefHDCS2020.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\HDCS2020"
+DefPB0330.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PB0330"
+DefICM105A.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\ICM105A"
+DefPAS202B.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PAS202B"
+DefPAS106B.NTamd64="Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\DefaultSettings\PAS106B"
+
+;----------------
+; Localizable
+;----------------
+SRCDISKNAME = "Look 316S Driver Installation Driver Disk..."
+SoftMfg     = "A4 TECH"
+HwMfg       = "A4 TECH"
+USB\VID_0AC8&PID_0302.DeviceDesc = "A4 TECH PC Camera H"
+USB\VID_0AC8&PID_0302.DeviceDisp = "A4 TECH PC Camera H"
+VMCustomPropertySets               = "VM Custom Property Sets" 
+VMCustomPropertyPage               = "VM Custom Property Page"
+VMBackDoorPropertyPage             = "VM Back Door Property Page"
+VMFaceTrackPropertyPage			   = "VM Face Track Property Page"
+TWAINSetting                       = "Software\ZSMC\USBCAMERA\ZC0303\TWAIN"
+TWAINSetting.NTamd64               = "Software\WOW6432Node\ZSMC\USBCAMERA\ZC0303\TWAIN"
+USB\VID_0AC8&PID_0302.TWAINDSName  = "A4 TECH PC Camera H"
+USB\VID_0AC8&PID_0302.TWAINOEMPath = "VM0303"
+GUID_VMCustomPropertySets          = "{ED175340-350C-45aa-A0A9-6E77DC62A9CA}"
+CLSID_VMCustomPropertyPage         = "{ED175341-350C-45aa-A0A9-6E77DC62A9CA}"
+CLSID_VMBackDoorPropertyPage       = "{EF843031-87FC-11DA-AE94-00132045F8AC}"
+CLSID_VMFaceTrackPropertyPage      = "{EF843032-87FC-11DA-AE94-00132045F8AC}"
+CLSID_VMUninstall		   ="{ADE16A9D-FBDC-4ecc-B6BD-9C31E51D303B}"
+
+SNAPSHOT                           = "Startup Camera"
+SNAPSHOT2                          = "Capture Image"
+VIDEOAPP                           = "MS Video Capture Application"
+STILLAPP                           = "VM Still Capture Application"
+STI_DEVICE_NAME                    = "VM STI USB" 
+;============interface rgs
+GUID_VVFTCTRL_CLSID="{99E0EEAE-E1BC-44CC-823D-A29780F77BFD}"
+GUID_VVFTCTRL_APPID="{F79675E6-9E83-4B77-9198-9C840A2963D3}"
+
+[VM.HWConfig.Addreg]
+;****
+; 1
+;****
+
+HKR,%HV7131B%,CMD,			0x00001,FF,20,00,00, F0,01,03,00
+
+HKR,%HV7131B%,Initial,			0X00001,00,00,01,cc,00,02,00,cc,00,10,01,cc,00,01,01,cc,01,01,77,cc,\
+						00,08,00,cc,00,12,07,cc,00,12,01,cc,00,03,02,cc,00,04,80,cc,\
+						00,05,01,cc,00,06,e0,cc,00,98,00,cc,00,9a,00,cc,00,9b,01,cc,\
+						00,9c,e6,cc,00,9d,02,cc,00,9e,86,cc,01,1a,00,cc,01,1c,00,cc,\
+						00,12,07,cc,00,02,00,dd,00,12,05,cc,00,01,0c,aa,00,11,00,aa,\
+						00,13,00,aa,00,14,01,aa,00,15,e6,aa,00,16,02,aa,00,17,86,aa,\
+						00,30,20,aa,00,19,00,cc,01,00,0d,cc,01,8d,89,cc,01,a8,50,cc,\
+						01,ad,09,cc,01,9b,c0,cc,01,9c,a0,cc,01,89,06,cc,01,c5,03,cc,\
+						01,cb,13,cc,02,50,08,cc,03,01,08,cc,01,8c,08,cc,01,8f,15,cc
+
+HKR,%HV7131B%,InitialScale,		0X00001,00,00,01,cc,00,02,10,cc,00,10,01,cc,00,01,01,cc,01,01,77,cc,\
+						00,08,00,cc,00,12,07,cc,00,12,01,cc,00,03,02,cc,00,04,80,cc,\
+						00,05,01,cc,00,06,e0,cc,00,98,00,cc,00,9a,00,cc,00,9b,01,cc,\
+						00,9c,e8,cc,00,9d,02,cc,00,9e,88,cc,01,1a,00,cc,01,1c,00,cc,\
+						00,12,07,cc,00,02,00,dd,00,12,05,cc,00,01,0c,aa,00,11,00,aa,\
+						00,13,00,aa,00,14,01,aa,00,15,e8,aa,00,16,02,aa,00,17,88,aa,\
+						00,30,20,aa,00,19,00,cc,01,00,0d,cc,01,8d,89,cc,01,a8,50,cc,\
+						01,ad,09,cc,01,9b,c0,cc,01,9c,a0,cc,01,89,06,cc,01,c5,03,cc,\
+						01,cb,13,cc,02,50,08,cc,03,01,08,cc,01,8c,08,cc,01,8f,15,cc
+
+HKR,%HV7131B%\AE,50HZ,			0X00001,00,19,00,cc,00,25,07,aa,00,26,53,aa,00,27,00,aa,01,90,2f,cc,\
+						01,91,9b,cc,01,92,80,cc,01,95,01,cc,01,96,d4,cc,01,97,c0,cc,\
+						01,8c,08,cc,01,8f,15,cc,01,a8,60,cc,01,a9,12,cc,01,aa,66,cc,\
+						00,1d,00,cc,00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+HKR,%HV7131B%\AE,50HZScale,		0X00001,00,19,00,cc,00,25,07,aa,00,26,53,aa,00,27,00,aa,01,90,2f,cc,\
+						01,91,9b,cc,01,92,80,cc,01,95,01,cc,01,96,d4,cc,01,97,c0,cc,\
+						01,8c,08,cc,01,8f,15,cc,01,a8,60,cc,01,a9,12,cc,01,aa,66,cc,\
+						00,1d,00,cc,00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+HKR,%HV7131B%\AE,60HZ,			0X00001,00,19,00,cc,00,25,07,aa,00,26,a1,aa,00,27,20,aa,01,90,2f,cc,\
+						01,91,4d,cc,01,92,60,cc,01,95,01,cc,01,96,86,cc,01,97,a0,cc,\
+						01,8c,08,cc,01,8f,15,cc,01,a8,60,cc,01,a9,12,cc,01,aa,66,cc,\
+						00,1d,00,cc,00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+HKR,%HV7131B%\AE,60HZScale,		0X00001,00,19,00,cc,00,25,07,aa,00,26,a1,aa,00,27,20,aa,01,90,2f,cc,\
+						01,91,4d,cc,01,92,60,cc,01,95,01,cc,01,96,86,cc,01,97,a0,cc,\
+						01,8c,08,cc,01,8f,15,cc,01,a8,60,cc,01,a9,12,cc,01,aa,66,cc,\
+						00,1d,00,cc,00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+HKR,%HV7131B%\AE,NoFliker,		0X00001,00,19,00,cc,00,25,03,aa,00,26,00,aa,00,27,00,aa,01,90,2f,cc,\
+						01,91,f8,cc,01,92,00,cc,01,95,00,cc,01,96,02,cc,01,97,00,cc,\
+						01,8c,0c,cc,01,8f,18,cc,01,a9,00,cc,01,aa,00,cc,00,1d,00,cc,\
+						00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+HKR,%HV7131B%\AE,NoFlikerScale,		0X00001,00,19,00,cc,00,25,03,aa,00,26,00,aa,00,27,00,aa,01,90,2f,cc,\
+						01,91,f8,cc,01,92,00,cc,01,95,00,cc,01,96,02,cc,01,97,00,cc,\
+						01,8c,0c,cc,01,8f,18,cc,01,a9,00,cc,01,aa,00,cc,00,1d,00,cc,\
+						00,1e,d0,cc,00,1f,00,cc,00,20,08,cc
+
+;****
+;3 mi360soc
+;****
+
+HKR,%TAS5130C%,CMD,          		0x00001,FF,20,00,00, F0,01,03,00,F0,02,10,30
+
+HKR,%TAS5130C%,Initial,			0X00001,00,00,01,cc,00,08,03,cc,00,10,0a,cc,00,02,00,cc,00,03,02,cc,\
+						00,04,80,cc,00,05,01,cc,00,06,e0,cc,00,8b,dc,cc,00,01,01,cc,\
+						00,12,07,cc,00,98,00,cc,00,9a,00,cc,01,1a,00,cc,\
+						01,1c,00,cc,00,8b,dc,cc,00,02,00,dd,00,12,05,cc,01,00,01,bb,06,00,00,bb,08,04,83,bb,\
+						01,00,04,bb,08,00,06,bb,02,00,11,bb,03,01,e5,bb,04,02,85,bb,\
+						07,30,02,bb,20,11,00,bb,35,00,7f,bb,30,00,05,bb,31,00,00,bb,\
+						58,00,78,bb,62,04,11,bb,2b,00,78,bb,2c,00,7f,bb,2d,00,7f,bb,\
+						2e,00,7f,bb,00,87,10,cc,01,01,37,cc,00,12,05,cc,01,00,0d,cc,\
+						01,89,06,cc,01,ad,00,cc,01,c5,03,cc,01,c6,1f,cc,01,cb,13,cc,02,50,08,cc,\
+						03,01,08,cc,01,a8,60,cc,01,8d,85,cc,01,16,61,cc,01,18,65,cc
+
+HKR,%TAS5130C%,InitialScale,		0X00001,00,00,01,cc,00,08,03,cc,00,10,0a,cc,00,02,10,cc,00,03,02,cc,\
+						00,04,80,cc,00,05,01,cc,00,06,e0,cc,00,8b,dc,cc,00,01,01,cc,\
+						00,12,07,cc,00,98,00,cc,00,9a,00,cc,01,1a,00,cc,\
+						01,1c,00,cc,00,8b,dc,cc,00,02,00,dd,00,12,05,cc,01,00,01,bb,06,00,00,bb,08,04,83,bb,\
+						01,00,04,bb,08,00,06,bb,02,00,11,bb,03,01,e7,bb,04,02,87,bb,\
+						07,30,02,bb,20,11,00,bb,35,00,ef,bb,30,00,05,bb,31,00,00,bb,\
+						58,00,78,bb,62,04,11,bb,2b,00,e8,bb,2c,00,ef,bb,2d,00,ef,bb,\
+						2e,00,ef,bb,00,87,10,cc,01,01,37,cc,00,12,05,cc,01,00,0d,cc,\
+						01,89,06,cc,01,ad,00,cc,01,c5,03,cc,01,c6,1f,cc,01,cb,13,cc,02,50,08,cc,\
+						03,01,08,cc,01,a8,60,cc,01,8d,88,cc,01,16,61,cc,01,18,65,cc
+
+HKR,%TAS5130C%\AE,50HZ,			0X00001,01,80,00,cc,00,19,00,cc,05,00,09,bb,09,01,ce,bb,01,90,00,cc,\
+						01,91,07,cc,01,92,d2,cc,01,95,00,cc,01,96,00,cc,01,97,9a,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,14,cc,01,aa,48,cc,00,1d,d7,cc,\
+						00,1e,f4,cc,00,1f,f9,cc,00,20,ff,cc,01,80,42,cc
+
+HKR,%TAS5130C%\AE,50HZScale,		0X00001,01,80,00,cc,00,19,00,cc,05,00,09,bb,09,01,ce,bb,01,90,00,cc,\
+						01,91,07,cc,01,92,d2,cc,01,95,00,cc,01,96,00,cc,01,97,9a,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,14,cc,01,aa,48,cc,00,1d,d7,cc,\
+						00,1e,f4,cc,00,1f,f9,cc,00,20,ff,cc,01,80,42,cc
+
+HKR,%TAS5130C%\AE,60HZ,			0X00001,01,80,00,cc,00,19,00,cc,00,05,09,aa,00,09,83,aa,01,90,00,cc,\
+						01,91,07,cc,01,92,8f,cc,01,95,00,cc,01,96,00,cc,01,97,81,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,14,cc,01,aa,66,cc,00,1d,d7,cc,\
+						00,1e,f4,cc,00,1f,f9,cc,00,20,ff,cc,01,80,42,cc
+
+HKR,%TAS5130C%\AE,60HZScale,		0X00001,01,80,00,cc,00,19,00,cc,00,05,09,aa,00,09,83,aa,01,90,00,cc,\
+						01,91,07,cc,01,92,8f,cc,01,95,00,cc,01,96,00,cc,01,97,81,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,14,cc,01,aa,66,cc,00,1d,d7,cc,\
+						00,1e,f4,cc,00,1f,f9,cc,00,20,ff,cc,01,80,42,cc
+
+HKR,%TAS5130C%\AE,NoFliker,		0X00001,01,80,00,cc,00,19,00,cc,05,00,34,bb,09,02,60,bb,01,90,00,cc,\
+						01,91,07,cc,01,92,f0,cc,01,95,00,cc,01,96,00,cc,01,97,04,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,00,cc,01,aa,00,cc,00,1d,34,cc,\
+						00,1e,60,cc,00,1f,90,cc,00,20,e0,cc,01,1d,60,cc,01,80,42,cc
+
+HKR,%TAS5130C%\AE,NoFlikerScale,	0X00001,01,80,00,cc,00,19,00,cc,05,00,34,bb,09,02,60,bb,01,90,00,cc,\
+						01,91,07,cc,01,92,f0,cc,01,95,00,cc,01,96,00,cc,01,97,04,cc,\
+						01,8c,0e,cc,01,8f,1c,cc,01,a9,00,cc,01,aa,00,cc,00,1d,34,cc,\
+						00,1e,60,cc,00,1f,90,cc,00,20,e0,cc,01,1d,60,cc,01,80,42,cc
+
+;****
+;11
+;****
+
+HKR,%PB0330%,CMD,          		0x00001,FF,20,00,00, F0,01,03,00,F0,02,10,30
+
+HKR,%PB0330%,Initial,			0X00001,00,00,01,cc,00,08,00,cc,00,10,0a,cc,00,02,00,cc,00,03,02,cc,\
+						00,04,80,cc,00,05,01,cc,00,06,e0,cc,00,01,01,cc,00,12,05,cc,\
+						00,12,07,cc,00,98,00,cc,00,9a,00,cc,01,1a,00,cc,01,1c,00,cc,\
+						00,02,00,dd,00,12,05,cc,01,00,06,bb,02,00,11,bb,03,01,e5,bb,04,02,85,bb,06,00,03,bb,\
+						07,30,02,bb,20,10,00,bb,2f,f7,b0,bb,30,00,05,bb,31,00,00,bb,\
+						34,01,00,bb,35,00,7f,bb,3d,06,8f,bb,40,07,e0,bb,58,00,78,bb,\
+						62,04,11,bb,01,01,37,cc,00,12,05,cc,00,87,10,cc,01,00,0d,cc,\
+						01,89,06,cc,01,ad,00,cc,01,c5,03,cc,01,cb,13,cc,02,50,08,cc,\
+						03,01,08,cc,01,a8,60,cc,01,8d,80,cc
+
+HKR,%PB0330%,InitialScale,		0X00001,00,00,01,cc,00,08,00,cc,00,10,0a,cc,00,02,10,cc,00,03,02,cc,\
+						00,04,80,cc,00,05,01,cc,00,06,e0,cc,00,01,01,cc,00,12,05,cc,\
+						00,12,07,cc,00,98,00,cc,00,9a,00,cc,01,1a,00,cc,01,1c,00,cc,\
+						00,02,00,dd,00,12,05,cc,01,00,06,bb,02,00,11,bb,03,01,e7,bb,04,02,87,bb,06,00,03,bb,\
+						07,30,02,bb,20,10,00,bb,2f,f7,b0,bb,30,00,05,bb,31,00,00,bb,\
+						34,01,00,bb,35,00,e0,bb,3d,06,8f,bb,40,07,e0,bb,58,00,78,bb,\
+						62,04,11,bb,00,87,10,cc,01,01,37,cc,00,12,05,cc,01,00,0d,cc,\
+						01,89,06,cc,01,ad,00,cc,01,c5,03,cc,01,cb,13,cc,02,50,08,cc,\
+						03,01,08,cc,01,a8,60,cc,01,8d,80,cc
+
+HKR,%PB0330%\AE,50HZ,			0X00001,00,19,00,cc,05,00,5c,bb,09,01,aa,bb,10,00,01,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,c4,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,8e,cc,01,8c,0e,cc,01,8f,1c,cc,01,a9,14,cc,01,aa,66,cc,\
+						00,1d,5c,cc,00,1e,90,cc,00,1f,c8,cc,00,20,ff,cc
+
+HKR,%PB0330%\AE,50HZScale,		0X00001,00,19,00,cc,05,00,66,bb,09,02,b2,bb,10,00,02,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,9a,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,8b,cc,01,8c,0e,cc,01,8f,1a,cc,01,a9,14,cc,01,aa,66,cc,\
+						00,1d,d7,cc,00,1e,f0,cc,00,1f,f8,cc,00,20,ff,cc
+
+HKR,%PB0330%\AE,60HZ,			0X00001,00,19,00,cc,05,00,35,bb,09,01,74,bb,10,00,01,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,c0,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,7c,cc,01,8c,10,cc,01,8f,20,cc,01,a9,14,cc,01,aa,24,cc,\
+						00,1d,35,cc,00,1e,50,cc,00,1f,90,cc,00,20,d0,cc
+
+HKR,%PB0330%\AE,60HZScale,		0X00001,00,19,00,cc,05,00,35,bb,09,02,6c,bb,10,00,02,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,c0,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,7c,cc,01,8c,10,cc,01,8f,20,cc,01,a9,14,cc,01,aa,24,cc,\
+						00,1d,35,cc,00,1e,50,cc,00,1f,90,cc,00,20,d0,cc
+
+HKR,%PB0330%\AE,NoFliker,		0X00001,00,19,00,cc,05,00,09,bb,09,02,40,bb,10,00,02,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,f0,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,01,cc,01,8c,10,cc,01,8f,20,cc,01,a9,00,cc,01,aa,00,cc,\
+						00,1d,09,cc,00,1e,40,cc,00,1f,90,cc,00,20,e0,cc
+
+HKR,%PB0330%\AE,NoFlikerScale,		0X00001,00,19,00,cc,05,00,35,bb,09,01,80,bb,10,00,01,bb,01,1d,60,cc,\
+						01,90,00,cc,01,91,07,cc,01,92,f0,cc,01,95,00,cc,01,96,00,cc,\
+						01,97,01,cc,01,8c,10,cc,01,8f,20,cc,01,a9,00,cc,01,aa,00,cc,\
+						00,1d,35,cc,00,1e,60,cc,00,1f,90,cc,00,20,e0,cc
+
+
+[VM.USBDCam.DefaultSettings]
+;-----------------
+; Current Settings
+;-----------------
+;Standard property
+HKR,Settings,TASCGain,0x10001,0
+HKR,Settings,AVRFil,0x10001,0
+HKR,Settings,MidFil,0x10001,0
+HKR,Settings,VideoFMT,0x10001,0
+HKR,Settings,TestMode,0x10001,0
+HKR,Settings,Brightness,0x10001,19
+HKR,Settings,Contrast,0x10001,21
+HKR,Settings,Hue,0x10001,18
+HKR,Settings,Saturation,0x10001,49
+HKR,Settings,Sharpness,0x10001,4
+HKR,Settings,WhiteBalance,0x10001,1
+HKR,Settings,BackLight,0x10001,0
+HKR,Settings,ColorEnable,0x10001,1
+
+;Custom property
+HKR,Settings,FrameRate,0x10001,7
+HKR,Settings,Exposure,0x10001,5
+HKR,Settings,Gain,0x10001,128
+HKR,Settings,Mirror,0x10001,0
+HKR,Settings,BandWidth,0x10001,7
+HKR,Settings,Flicker,0x10001,1
+HKR,Settings,Register,0x10001,0
+HKR,Settings,SerialNo,0x10001,1
+HKR,Settings,Default,0x10001,1
+HKR,Settings,Zoom,0x10001,0
+
+;Added by Hunter
+HKR,Settings,ExposureAuto,0x10001,1
+HKR,Settings,EffectEnable,0x10001,1
+HKR,Settings,EffectIndex,0x10001,0
+HKR,%ImagePara%,Image0,0x00001,00
+HKR,%ImagePara%,Image1,0x00001,00
+HKR,%ImagePara%,Image2,0x00001,00
+HKR,%ImagePara%,Image3,0x00001,00
+HKR,%ImagePara%,Image4,0x00001,00
+HKR,%ImagePara%,Image5,0x00001,00
+HKR,%ImagePara%,Image6,0x00001,00
+HKR,%ImagePara%,Image7,0x00001,00
+HKR,%ImagePara%,Image8,0x00001,01,ff,ff,00,00,00
+HKR,Settings,WhiteBalanceAuto,0x10001,1
+HKR,Settings,GainAuto,0x10001,1
+HKR,Settings,Vertical,0x10001,0
+HKR,Settings,BandWidthAuto,0x10001,1
+HKR,Settings,Rgain,0x10001,64
+HKR,Settings,Ggain,0x10001,64
+HKR,Settings,Bgain,0x10001,64
+HKR,Settings,SharpT,1,1
+
+;ImagePara
+HKR,Settings\ImagePara,Image0,		0x00001,01,ff,ff,00,00,00
+HKR,Settings\ImagePara,Image1,		0x00001,01,ff,ff,00,00,00
+HKR,Settings\ImagePara,Image2,		0x00001,01,ff,00,00,ff,00
+HKR,Settings\ImagePara,Image3,		0x00001,01,ff,ff,00,80,64
+HKR,Settings\ImagePara,Image4,		0x00001,01,ff,00,ff,80,00
+HKR,Settings\ImagePara,Image5,		0x00001,01,ff,fe,5d,1e,00
+HKR,Settings\ImagePara,Image6,		0x00001,01,ff,66,99,33,64
+HKR,Settings\ImagePara,Image7,		0x00001,01,ff,ff,00,00,64
+HKR,Settings\ImagePara,Image8,		0x00001,01,ff,ff,00,00,00
+
+;Sensor specified settings
+;1
+HKR,%HV7131B%\Settings,Gamma,		0x00001,04
+HKR,%HV7131B%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%HV7131B%\Settings,MatrixT,		0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+HKR,%HV7131B%\Settings,RJMatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+
+;3
+HKR,%TAS5130C%\Settings,Gamma,		0x00001,04
+HKR,%TAS5130C%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%TAS5130C%\Settings,MatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+HKR,%TAS5130C%\Settings,RJMatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+
+
+
+;11
+HKR,%PB0330%\Settings,Gamma,		0x00001,04
+HKR,%PB0330%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%PB0330%\Settings,MatrixT,		0x00001,50,f8,f8,f8,50,f8,f8,f8,50
+HKR,%PB0330%\Settings,RJMatrixT,	0x00001,50,f8,f8,f8,50,f8,f8,f8,50
+
+
+HKLM,%CustomSetting%,"BandWidth",0x10001,7
+HKLM,%CustomSetting%,"Brightness",0x10001,19
+HKLM,%CustomSetting%,"Contrast",0x10001,21
+HKLM,%CustomSetting%,"Hue",0x10001,18
+HKLM,%CustomSetting%,"Saturation",0x10001,49
+HKLM,%CustomSetting%,"Sharpness",0x10001,4
+HKLM,%CustomSetting%,"Gamma",0x10001,4
+HKLM,%CustomSetting%,"WhiteBalance",0x10001,1
+HKLM,%CustomSetting%,"BackLight",0x10001,0
+HKLM,%CustomSetting%,"ColorEnable",0x10001,1
+HKLM,%CustomSetting%,"FrameRate",0x10001,7
+HKLM,%CustomSetting%,"Exposure",0x10001,5
+HKLM,%CustomSetting%,"Gain",0x10001,128
+HKLM,%CustomSetting%,"Mirror",0x10001,0
+HKLM,%CustomSetting%,"Flicker",0x10001,1
+HKLM,%CustomSetting%,"Default",0x10001,1
+HKLM,%CustomSetting%,"ExposureAuto",0x10001,1
+HKLM,%CustomSetting%,"WhiteBalanceAuto",0x10001,1
+HKLM,%CustomSetting%,"GainAuto",0x10001,1
+HKLM,%CustomSetting%,"BandWidthAuto",0x10001,1
+HKLM,%CustomSetting%,"Vertical",0x10001,0
+HKLM,%CustomSetting%,"Rgain",0x10001,64
+HKLM,%CustomSetting%,"Ggain",0x10001,64
+HKLM,%CustomSetting%,"Bgain",0x10001,64
+HKLM,%CustomSetting%,"Zoom",0x10001,0
+
+
+;******
+;******  Sensor Specified Default Settings
+;******
+
+;1
+HKLM,%DefHV7131B%,"BandWidth",0x10001,7
+HKLM,%DefHV7131B%,"Brightness",0x10001,20
+HKLM,%DefHV7131B%,"Contrast",0x10001,20
+HKLM,%DefHV7131B%,"Hue",0x10001,18
+HKLM,%DefHV7131B%,"Saturation",0x10001,50
+HKLM,%DefHV7131B%,"Sharpness",0x10001,4
+HKLM,%DefHV7131B%,"Gamma",0x10001,4    
+HKLM,%DefHV7131B%,"WhiteBalance",0x10001,1
+HKLM,%DefHV7131B%,"BackLight",0x10001,0
+HKLM,%DefHV7131B%,"ColorEnable",0x10001,1
+HKLM,%DefHV7131B%,"FrameRate",0x10001,7
+HKLM,%DefHV7131B%,"Exposure",0x10001,5
+HKLM,%DefHV7131B%,"Gain",0x10001,1
+HKLM,%DefHV7131B%,"Mirror",0x10001,0
+HKLM,%DefHV7131B%,"Flicker",0x10001,1
+HKLM,%DefHV7131B%,"Default",0x10001,1
+HKLM,%DefHV7131B%,"ExposureAuto",0x10001,1
+HKLM,%DefHV7131B%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefHV7131B%,"GainAuto",0x10001,1
+HKLM,%DefHV7131B%,"BandWidthAuto",0x10001,1
+HKLM,%DefHV7131B%,"Vertical",0x10001,0
+HKLM,%DefHV7131B%,"Rgain",0x10001,87
+HKLM,%DefHV7131B%,"Ggain",0x10001,64
+HKLM,%DefHV7131B%,"Bgain",0x10001,68
+HKLM,%DefHV7131B%,"Zoom",0x10001,0
+
+;3
+HKLM,%DefTAS5130C%,"BandWidth",0x10001,7
+HKLM,%DefTAS5130C%,"Brightness",0x10001,19
+HKLM,%DefTAS5130C%,"Contrast",0x10001,21
+HKLM,%DefTAS5130C%,"Hue",0x10001,18
+HKLM,%DefTAS5130C%,"Saturation",0x10001,49
+HKLM,%DefTAS5130C%,"Sharpness",0x10001,4
+HKLM,%DefTAS5130C%,"Gamma",0x10001,4
+HKLM,%DefTAS5130C%,"WhiteBalance",0x10001,1
+HKLM,%DefTAS5130C%,"BackLight",0x10001,0
+HKLM,%DefTAS5130C%,"ColorEnable",0x10001,1
+HKLM,%DefTAS5130C%,"FrameRate",0x10001,7
+HKLM,%DefTAS5130C%,"Exposure",0x10001,5
+HKLM,%DefTAS5130C%,"Gain",0x10001,1
+HKLM,%DefTAS5130C%,"Mirror",0x10001,0
+HKLM,%DefTAS5130C%,"Flicker",0x10001,1
+HKLM,%DefTAS5130C%,"Default",0x10001,1
+HKLM,%DefTAS5130C%,"ExposureAuto",0x10001,1
+HKLM,%DefTAS5130C%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefTAS5130C%,"GainAuto",0x10001,1
+HKLM,%DefTAS5130C%,"BandWidthAuto",0x10001,1
+HKLM,%DefTAS5130C%,"Vertical",0x10001,0
+HKLM,%DefTAS5130C%,"Rgain",0x10001,70
+HKLM,%DefTAS5130C%,"Ggain",0x10001,64
+HKLM,%DefTAS5130C%,"Bgain",0x10001,96
+HKLM,%DefTAS5130C%,"Zoom",0x10001,0
+
+;11
+HKLM,%DefPB0330%,"BandWidth",0x10001,7
+HKLM,%DefPB0330%,"Brightness",0x10001,20
+HKLM,%DefPB0330%,"Contrast",0x10001,20
+HKLM,%DefPB0330%,"Hue",0x10001,18
+HKLM,%DefPB0330%,"Saturation",0x10001,50
+HKLM,%DefPB0330%,"Sharpness",0x10001,4
+HKLM,%DefPB0330%,"Gamma",0x10001,4
+HKLM,%DefPB0330%,"WhiteBalance",0x10001,1
+HKLM,%DefPB0330%,"BackLight",0x10001,0
+HKLM,%DefPB0330%,"ColorEnable",0x10001,1
+HKLM,%DefPB0330%,"FrameRate",0x10001,7
+HKLM,%DefPB0330%,"Exposure",0x10001,5
+HKLM,%DefPB0330%,"Gain",0x10001,1
+HKLM,%DefPB0330%,"Mirror",0x10001,0
+HKLM,%DefPB0330%,"Flicker",0x10001,1
+HKLM,%DefPB0330%,"Default",0x10001,1
+HKLM,%DefPB0330%,"ExposureAuto",0x10001,1
+HKLM,%DefPB0330%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefPB0330%,"GainAuto",0x10001,1
+HKLM,%DefPB0330%,"BandWidthAuto",0x10001,1
+HKLM,%DefPB0330%,"Vertical",0x10001,0
+HKLM,%DefPB0330%,"Rgain",0x10001,70
+HKLM,%DefPB0330%,"Ggain",0x10001,64
+HKLM,%DefPB0330%,"Bgain",0x10001,96
+HKLM,%DefPB0330%,"Zoom",0x10001,0
+
+[VM.USBDCam.DefaultSettings.NTamd64]
+;HKLM,%CustomSetting.NTamd64%,"BandWidth",0x10001,7
+;HKLM,%DefHV7131B.NTamd64%,"BandWidth",0x10001,7
+
+
+;-----------------
+; Current Settings
+;-----------------
+;Standard property
+HKR,Settings,TASCGain,0x10001,0
+HKR,Settings,AVRFil,0x10001,0
+HKR,Settings,MidFil,0x10001,0
+HKR,Settings,VideoFMT,0x10001,0
+HKR,Settings,TestMode,0x10001,0
+HKR,Settings,Brightness,0x10001,19
+HKR,Settings,Contrast,0x10001,21
+HKR,Settings,Hue,0x10001,18
+HKR,Settings,Saturation,0x10001,49
+HKR,Settings,Sharpness,0x10001,4
+HKR,Settings,WhiteBalance,0x10001,1
+HKR,Settings,BackLight,0x10001,0
+HKR,Settings,ColorEnable,0x10001,1
+
+;Custom property
+HKR,Settings,FrameRate,0x10001,7
+HKR,Settings,Exposure,0x10001,5
+HKR,Settings,Gain,0x10001,128
+HKR,Settings,Mirror,0x10001,0
+HKR,Settings,BandWidth,0x10001,7
+HKR,Settings,Flicker,0x10001,1
+HKR,Settings,Register,0x10001,0
+HKR,Settings,SerialNo,0x10001,1
+HKR,Settings,Default,0x10001,1
+HKR,Settings,Zoom,0x10001,0
+
+;Added by Hunter
+HKR,Settings,ExposureAuto,0x10001,1
+HKR,Settings,EffectEnable,0x10001,0
+HKR,Settings,EffectIndex,0x10001,0
+HKR,%ImagePara%,Image0,0x00001,00
+HKR,%ImagePara%,Image1,0x00001,00
+HKR,%ImagePara%,Image2,0x00001,00
+HKR,%ImagePara%,Image3,0x00001,00
+HKR,%ImagePara%,Image4,0x00001,00
+HKR,%ImagePara%,Image5,0x00001,00
+HKR,%ImagePara%,Image6,0x00001,00
+HKR,%ImagePara%,Image7,0x00001,00
+HKR,%ImagePara%,Image8,0x00001,01,ff,ff,00,00,00
+HKR,Settings,WhiteBalanceAuto,0x10001,1
+HKR,Settings,GainAuto,0x10001,1
+HKR,Settings,Vertical,0x10001,0
+HKR,Settings,BandWidthAuto,0x10001,1
+HKR,Settings,Rgain,0x10001,64
+HKR,Settings,Ggain,0x10001,64
+HKR,Settings,Bgain,0x10001,64
+HKR,Settings,SharpT,1,1
+
+;ImagePara
+HKR,Settings\ImagePara,Image0,		0x00001,01,ff,ff,00,00,00
+HKR,Settings\ImagePara,Image1,		0x00001,01,ff,fe,6d,2a,00
+HKR,Settings\ImagePara,Image2,		0x00001,01,ff,00,00,ff,00
+HKR,Settings\ImagePara,Image3,		0x00001,01,ff,ff,00,80,64
+HKR,Settings\ImagePara,Image4,		0x00001,01,ff,00,ff,80,00
+HKR,Settings\ImagePara,Image5,		0x00001,01,ff,fe,5d,1e,00
+HKR,Settings\ImagePara,Image6,		0x00001,01,ff,66,99,33,64
+HKR,Settings\ImagePara,Image7,		0x00001,01,ff,ff,00,00,64
+HKR,Settings\ImagePara,Image8,		0x00001,01,ff,ff,00,00,00
+
+;Sensor specified settings
+;1
+HKR,%HV7131B%\Settings,Gamma,		0x00001,04
+HKR,%HV7131B%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%HV7131B%\Settings,MatrixT,		0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+HKR,%HV7131B%\Settings,RJMatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+
+;3
+HKR,%TAS5130C%\Settings,Gamma,		0x00001,04
+HKR,%TAS5130C%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%TAS5130C%\Settings,MatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+HKR,%TAS5130C%\Settings,RJMatrixT,	0x00001,60,f0,f0,f0,60,f0,f0,f0,60
+
+;5
+HKR,%CS2102%\Settings,Gamma,		0x00001,03
+HKR,%CS2102%\Settings,GammaT,		0x00001,04,16,30,4e,68,81,98,ac,be,cd,da,e4,ed,f5,fb,ff,0c,16,1b,1c,\
+						19,18,15,12,10,0d,0b,09,08,06,05,03
+HKR,%CS2102%\Settings,MatrixT,	        0x00001,5b,f9,e5,e7,53,05,f3,e6,60
+HKR,%CS2102%\Settings,RJMatrixT,	0x00001,5b,f9,e5,e7,53,05,f3,e6,60
+
+;7
+HKR,%OV7620%\Settings,Gamma,		0x00001,02
+HKR,%OV7620%\Settings,GammaT,		0x00001,01,0c,1f,3a,53,6d,85,9c,b0,c2,d1,de,e9,f2,f9,ff,05,0f,16,1a,\
+						19,19,17,15,12,10,0e,0b,09,08,06,03
+HKR,%OV7620%\Settings,MatrixT,	        0x00001,58,f4,f4,f4,58,f4,f4,f4,58
+HKR,%OV7620%\Settings,RJMatrixT,	0x00001,58,f4,f4,f4,58,f4,f4,f4,58
+;9
+HKR,%HDCS2020%\Settings,Gamma,		0x00001,04
+HKR,%HDCS2020%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%HDCS2020%\Settings,MatrixT,	0x00001,66,ed,ed,ed,66,ed,ed,ed,66
+HKR,%HDCS2020%\Settings,RJMatrixT,	0x00001,66,ed,ed,ed,66,ed,ed,ed,66
+
+;11
+HKR,%PB0330%\Settings,Gamma,		0x00001,04
+HKR,%PB0330%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%PB0330%\Settings,MatrixT,		0x00001,50,f8,f8,f8,50,f8,f8,f8,50
+HKR,%PB0330%\Settings,RJMatrixT,	0x00001,50,f8,f8,f8,50,f8,f8,f8,50
+
+;13
+HKR,%ICM105A%\Settings,Gamma,		0x00001,03                                                           
+HKR,%ICM105A%\Settings,GammaT,		0x00001,04,16,30,4e,68,81,98,ac,be,cd,da,e4,ed,f5,fb,ff,0c,16,1b,1c,\
+						19,18,15,12,10,0d,0b,09,08,06,05,03
+HKR,%ICM105A%\Settings,MatrixT,  	0x00001,6c,ea,ea,ea,6c,ea,ea,ea,6c
+HKR,%ICM105A%\Settings,RJMatrixT,	0x00001,6c,ea,ea,ea,6c,ea,ea,ea,6c
+
+;15
+HKR,%PAS202B%\Settings,Gamma,		0x00001,04
+HKR,%PAS202B%\Settings,GammaT,		0x00001,13,38,59,79,92,a7,b9,c8,d4,df,e7,ee,f4,f9,fc,ff,26,22,20,1c,\
+						16,13,10,0d,0b,09,07,06,05,04,03,02
+HKR,%PAS202B%\Settings,MatrixT,		0x00001,5a,f3,f3,f3,5a,f3,f3,f3,5a
+HKR,%PAS202B%\Settings,RJMatrixT,	0x00001,5a,f3,f3,f3,5a,f3,f3,f3,5a
+
+;16
+HKR,%PAS106B%\Settings,Gamma,		0x00001,03
+HKR,%PAS106B%\Settings,GammaT,		0x00001,04,16,30,4e,68,81,98,ac,be,cd,da,e4,ed,f5,fb,ff,0c,16,1b,1c,\
+						19,18,15,12,10,0d,0b,09,08,06,05,03
+HKR,%PAS106B%\Settings,MatrixT,		0x00001,58,f4,f4,f4,58,f4,f4,f4,58
+HKR,%PAS106B%\Settings,RJMatrixT,	0x00001,58,f4,f4,f4,58,f4,f4,f4,58
+
+HKLM,%CustomSetting.NTamd64%,"BandWidth",0x10001,7
+HKLM,%CustomSetting.NTamd64%,"Brightness",0x10001,19
+HKLM,%CustomSetting.NTamd64%,"Contrast",0x10001,21
+HKLM,%CustomSetting.NTamd64%,"Hue",0x10001,18
+HKLM,%CustomSetting.NTamd64%,"Saturation",0x10001,49
+HKLM,%CustomSetting.NTamd64%,"Sharpness",0x10001,4
+HKLM,%CustomSetting.NTamd64%,"Gamma",0x10001,4
+HKLM,%CustomSetting.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"BackLight",0x10001,0
+HKLM,%CustomSetting.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"FrameRate",0x10001,7
+HKLM,%CustomSetting.NTamd64%,"Exposure",0x10001,5
+HKLM,%CustomSetting.NTamd64%,"Gain",0x10001,128
+HKLM,%CustomSetting.NTamd64%,"Mirror",0x10001,0
+HKLM,%CustomSetting.NTamd64%,"Flicker",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"Default",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"GainAuto",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%CustomSetting.NTamd64%,"Vertical",0x10001,0
+HKLM,%CustomSetting.NTamd64%,"Rgain",0x10001,64
+HKLM,%CustomSetting.NTamd64%,"Ggain",0x10001,64
+HKLM,%CustomSetting.NTamd64%,"Bgain",0x10001,64
+HKLM,%CustomSetting.NTamd64%,"Zoom",0x10001,0
+
+
+;******
+;******  Sensor Specified Default Settings
+;******
+
+;1
+HKLM,%DefHV7131B.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefHV7131B.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefHV7131B.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefHV7131B.NTamd64%,"Hue",0x10001,18
+HKLM,%DefHV7131B.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefHV7131B.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefHV7131B.NTamd64%,"Gamma",0x10001,4    
+HKLM,%DefHV7131B.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefHV7131B.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefHV7131B.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefHV7131B.NTamd64%,"Gain",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefHV7131B.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"Default",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefHV7131B.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefHV7131B.NTamd64%,"Rgain",0x10001,87
+HKLM,%DefHV7131B.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefHV7131B.NTamd64%,"Bgain",0x10001,68
+HKLM,%DefHV7131B.NTamd64%,"Zoom",0x10001,0
+
+;3
+HKLM,%DefTAS5130C.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefTAS5130C.NTamd64%,"Brightness",0x10001,19
+HKLM,%DefTAS5130C.NTamd64%,"Contrast",0x10001,21
+HKLM,%DefTAS5130C.NTamd64%,"Hue",0x10001,18
+HKLM,%DefTAS5130C.NTamd64%,"Saturation",0x10001,49
+HKLM,%DefTAS5130C.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefTAS5130C.NTamd64%,"Gamma",0x10001,4
+HKLM,%DefTAS5130C.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefTAS5130C.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefTAS5130C.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefTAS5130C.NTamd64%,"Gain",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefTAS5130C.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"Default",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefTAS5130C.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefTAS5130C.NTamd64%,"Rgain",0x10001,70
+HKLM,%DefTAS5130C.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefTAS5130C.NTamd64%,"Bgain",0x10001,96
+HKLM,%DefTAS5130C.NTamd64%,"Zoom",0x10001,0
+;5
+HKLM,%DefCS2102.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefCS2102.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefCS2102.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefCS2102.NTamd64%,"Hue",0x10001,18
+HKLM,%DefCS2102.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefCS2102.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefCS2102.NTamd64%,"Gamma",0x10001,3
+HKLM,%DefCS2102.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefCS2102.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefCS2102.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefCS2102.NTamd64%,"Gain",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefCS2102.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"Default",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefCS2102.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefCS2102.NTamd64%,"Rgain",0x10001,96
+HKLM,%DefCS2102.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefCS2102.NTamd64%,"Bgain",0x10001,96
+HKLM,%DefCS2102.NTamd64%,"Zoom",0x10001,0
+;7
+HKLM,%DefOV7620.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefOV7620.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefOV7620.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefOV7620.NTamd64%,"Hue",0x10001,18
+HKLM,%DefOV7620.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefOV7620.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefOV7620.NTamd64%,"Gamma",0x10001,2
+HKLM,%DefOV7620.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefOV7620.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefOV7620.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefOV7620.NTamd64%,"Gain",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefOV7620.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"Default",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefOV7620.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefOV7620.NTamd64%,"Rgain",0x10001,96
+HKLM,%DefOV7620.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefOV7620.NTamd64%,"Bgain",0x10001,96
+HKLM,%DefOV7620.NTamd64%,"Zoom",0x10001,0
+;9
+HKLM,%DefHDCS2020.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefHDCS2020.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefHDCS2020.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefHDCS2020.NTamd64%,"Hue",0x10001,18
+HKLM,%DefHDCS2020.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefHDCS2020.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefHDCS2020.NTamd64%,"Gamma",0x10001,4
+HKLM,%DefHDCS2020.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefHDCS2020.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefHDCS2020.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefHDCS2020.NTamd64%,"Gain",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefHDCS2020.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"Default",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefHDCS2020.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefHDCS2020.NTamd64%,"Rgain",0x10001,96
+HKLM,%DefHDCS2020.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefHDCS2020.NTamd64%,"Bgain",0x10001,77
+HKLM,%DefHDCS2020.NTamd64%,"Zoom",0x10001,0
+;11
+HKLM,%DefPB0330.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefPB0330.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefPB0330.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefPB0330.NTamd64%,"Hue",0x10001,18
+HKLM,%DefPB0330.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefPB0330.NTamd64%,"Sharpness",0x10001,4
+HKLM,%DefPB0330.NTamd64%,"Gamma",0x10001,4
+HKLM,%DefPB0330.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefPB0330.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefPB0330.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefPB0330.NTamd64%,"Gain",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefPB0330.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"Default",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefPB0330.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefPB0330.NTamd64%,"Rgain",0x10001,70
+HKLM,%DefPB0330.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefPB0330.NTamd64%,"Bgain",0x10001,96
+HKLM,%DefPB0330.NTamd64%,"Zoom",0x10001,0
+;13
+HKLM,%DefICM105A.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefICM105A.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefICM105A.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefICM105A.NTamd64%,"Hue",0x10001,18
+HKLM,%DefICM105A.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefICM105A.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefICM105A.NTamd64%,"Gamma",0x10001,3
+HKLM,%DefICM105A.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefICM105A.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefICM105A.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefICM105A.NTamd64%,"Gain",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefICM105A.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"Default",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefICM105A.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefICM105A.NTamd64%,"Rgain",0x10001,82
+HKLM,%DefICM105A.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefICM105A.NTamd64%,"Bgain",0x10001,75
+HKLM,%DefICM105A.NTamd64%,"Zoom",0x10001,0
+;15
+HKLM,%DefPAS202B.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefPAS202B.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefPAS202B.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefPAS202B.NTamd64%,"Hue",0x10001,18
+HKLM,%DefPAS202B.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefPAS202B.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefPAS202B.NTamd64%,"Gamma",0x10001,4
+HKLM,%DefPAS202B.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefPAS202B.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefPAS202B.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefPAS202B.NTamd64%,"Gain",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefPAS202B.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"Default",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefPAS202B.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefPAS202B.NTamd64%,"Rgain",0x10001,59
+HKLM,%DefPAS202B.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefPAS202B.NTamd64%,"Bgain",0x10001,79
+HKLM,%DefPAS202B.NTamd64%,"Zoom",0x10001,0
+;16
+HKLM,%DefPAS106B.NTamd64%,"BandWidth",0x10001,7
+HKLM,%DefPAS106B.NTamd64%,"Brightness",0x10001,20
+HKLM,%DefPAS106B.NTamd64%,"Contrast",0x10001,20
+HKLM,%DefPAS106B.NTamd64%,"Hue",0x10001,18
+HKLM,%DefPAS106B.NTamd64%,"Saturation",0x10001,50
+HKLM,%DefPAS106B.NTamd64%,"Sharpness",0x10001,3
+HKLM,%DefPAS106B.NTamd64%,"Gamma",0x10001,3
+HKLM,%DefPAS106B.NTamd64%,"WhiteBalance",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"BackLight",0x10001,0
+HKLM,%DefPAS106B.NTamd64%,"ColorEnable",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"FrameRate",0x10001,7
+HKLM,%DefPAS106B.NTamd64%,"Exposure",0x10001,5
+HKLM,%DefPAS106B.NTamd64%,"Gain",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"Mirror",0x10001,0
+HKLM,%DefPAS106B.NTamd64%,"Flicker",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"Default",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"ExposureAuto",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"WhiteBalanceAuto",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"GainAuto",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"BandWidthAuto",0x10001,1
+HKLM,%DefPAS106B.NTamd64%,"Vertical",0x10001,0
+HKLM,%DefPAS106B.NTamd64%,"Rgain",0x10001,96
+HKLM,%DefPAS106B.NTamd64%,"Ggain",0x10001,64
+HKLM,%DefPAS106B.NTamd64%,"Bgain",0x10001,69
+HKLM,%DefPAS106B.NTamd64%,"Zoom",0x10001,0
+

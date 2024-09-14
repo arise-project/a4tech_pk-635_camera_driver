@@ -1,0 +1,39 @@
+人脸追踪驱动的实现必需要满足的条件：
+             1.  301plh+mi360的方案
+             2.  画面大小320*240以下，包括320*240
+             3.  满足了1，2两个条件后，在人脸追踪菜单中打开云台模拟即可。
+
+
+--------------------------
+301h_drv_SF_R1_060901:
+features list:
+
+1. SUPPORT MULTI-LANGUAGES
+ -	English (Default)
+ -	Chinese Simplified
+ -	Chinese Traditional
+ -	Japanese
+ -	Swedish
+ -	German
+ -	French
+ - 	Dutch
+ -	Italian
+ -	Spanish
+ -	Portuguese
+2,Preview resolution:
+	160*120
+	176*144
+	320*240
+	352*288
+	640*480
+	800*600
+	1280*960
+
+3,Support 4X zoom
+
+
+4.SENOR:mi360,mt9v111,hv7131r
+
+5.new bigdog
+
+6.sys ver: 3.6.831.17 解决k82在电脑重起白屏的问题。

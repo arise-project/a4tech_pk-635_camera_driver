@@ -1,0 +1,110 @@
+[Version]
+Signature=$CHICAGO$
+Provider=%MFGNAME%
+
+[DestinationDirs]
+DefaultDestDir=10,system32\drivers
+FiltJectCopyFiles=11
+PropPageCopyFiles=11
+ResCopyFiles=10,EffectResources
+FaceTrackCopyFiles=10, EffectResources\FT
+
+[SourceDisksFiles]
+vmfilter303.sys=1
+setupfilter.exe=1
+
+[SourceDisksNames]
+1=%INSTDISK%
+
+[DefaultInstall.ntx86]
+CopyFiles=DriverCopyFiles,FiltJectCopyFiles,FaceTrackCopyFiles
+AddReg=FiltJectAddReg.ntx86, PropPageAddReg.ntx86
+
+[DriverCopyFiles]
+vmfilter303.sys			; replace newer, suppress dialog
+
+[FiltJectCopyFiles]
+setupfilter.exe
+
+[PropPageCopyFiles]
+vm303Prp.ax
+
+[ResCopyFiles]			; effect resources files
+bcbsmp50.bpl
+borlndmm.dll
+canvas.vmd
+cc3250mt.dll
+DriverPage.ini
+FrameWizard.exe
+Image.dat
+Image109.bmp
+Negative.vmd
+RainDrop.vmd
+Random.db
+vcl50.bpl
+vclx50.bpl
+vmd101.vmd
+vmd102.vmd
+vmd103.vmd
+vmd104.vmd
+vmd105.vmd
+vmd106.vmd
+vmd107.vmd
+vmd108.vmd
+VMImage.ini
+
+[FaceTrackCopyFiles]
+;1.dat
+3.dat
+;13.dat
+
+
+;------------------------------------------------------------------------------
+;  Windows 2000 Sections
+;------------------------------------------------------------------------------
+[FiltJectAddReg.ntx86]
+HKLM,%RUNONCEKEYNAME%,InjectFilter,,"Setupfilter -fltname vmfilter303 -sevname ZSMC303 -quiet"
+
+[PropPageAddReg.ntx86]
+;==face tracking registry
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,,,Vm303prp.ax
+HKCR,CLSID\%CLSID_VMFaceTrackPropertyPage%\InprocServer32,ThreadingModel,,Both
+HKLM,System\CurrentControlSet\Control\MediaSets\%GUID_VMCustomPropertySets%\PropertyPages\%CLSID_VMFaceTrackPropertyPage%,,,%VMFaceTrackPropertyPage%
+
+[DefaultInstall.ntx86.services]
+AddService=vmfilter303,,FilterService
+
+[FilterService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%10%\system32\drivers\vmfilter303.sys
+
+;------------------------------------------------------------------------------
+;  Windows 98 Sections
+;------------------------------------------------------------------------------
+
+[DefaultInstall]
+CopyFiles=DriverCopyFiles,FiltJectCopyFiles,ResCopyFiles,FaceTrackCopyFiles
+AddReg=FiltJectAddReg
+
+[FiltJectAddReg]
+HKLM,%RUNONCEKEYNAME%,SetupFilter,,"SetupFilter -sevname ZSMC303"
+;HKLM,%RUNONCEKEYNAME%,InjectFilter,,"rundll32 filtject,InjectFilter ""IOCTL Sample Device"" wdmstub.sys -lower"
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+MFGNAME="Vimicro"
+INSTDISK="VM301 Driver Disc"
+DESCRIPTION="Filter Driver for Special Effect"
+RUNONCEKEYNAME="Software\Microsoft\Windows\CurrentVersion\RunOnce"
+
+
+GUID_VMCustomPropertySets	="{ED175340-350C-45aa-A0A9-6E77DC62A9CA}"
+
+VMFaceTrackPropertyPage ="VM Face Track Property Page"
+CLSID_VMFaceTrackPropertyPage   ="{ED175360-350C-45aa-A0A9-6E77DC62A9CA}"
